@@ -1,5 +1,6 @@
 package se.iandwe.fingerdancer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	//public static final int S3 = R.raw.diplo_oboy;
 	private int currentRound = 1;
 	private int currentRoundGameboard = 0;
-	
+	private MediaPlayer mediaPlayer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,10 +132,32 @@ public class MainActivity extends Activity implements OnTouchButton {
 	 
 	 private void playBackgroundMusic()
 	 {
-		 MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.diplo_oboy);
+		 
+		 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.shortbeat);		
 		 mediaPlayer.start();
 	 }
+	 
+	 @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onpause called");
+		super.onPause();
+	}
 	
+	 @Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onstop called");
+		super.onStop();
+	}
+	 
+	 @Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onresume called");
+		super.onResume();
+	}
+	 
 	private int[] getArrayWithRandomCorrectAnswers(int amountOfCorrectAnswersNeeded)
     {
 		int[] arrayToBeReturned = new int[(amountOfCorrectAnswersNeeded)];
@@ -177,6 +200,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		madeError = false;
 		if(currentRoundGameboard == Settings.ROUND_ONE_SIZE)
 		{
+			
 			showRoundInfoView("");
 		}
 		else
@@ -192,6 +216,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		currentRoundGameboard = 0;
 		totalPointsForRound = 0;
 		setPointsTotal();
+		playBackgroundMusic();
 		startRound();
 	}
 

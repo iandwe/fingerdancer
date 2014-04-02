@@ -19,8 +19,8 @@ public class Settings {
 	public static final int BUTTON_ANIMATIONTIME_WHEN_CORRECT_PUSH 	= 150;
 	
 	
-	public static final int ROUND_ONE_SIZE 							= 283;
+	public static final int ROUND_ONE_SIZE 							= 26;
 	
-	public static final int ROUND1_MUSICLENGTH 						= 312000;
+	public static final int ROUND1_MUSICLENGTH 						= 32000;
 	
 }
