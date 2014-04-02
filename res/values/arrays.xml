@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <array name="colors_names">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+    </array>
+    
+    <string-array name="background_drawables">
+        <item>@drawable/red_transition</item>
+        <item>@drawable/green_transition</item>
+        <item>@drawable/blue_transition</item>
+    </string-array>
+    
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_red">#610B0B</color>
+    <color name="dark_blue">#0B2161</color>
+    <color name="dark_green">#0B610B</color>
+    
+    <color name="highlighted_green">#00FF00</color>
+    <color name="highlighted_red">#FF0000</color>
+    <color name="highlighted_blue">#00FFFF</color>
+    
+    <color name="error">#6E6E6E</color>
+    
+    <color name="pointStatusTotal">#FFFFFF</color>
+    <color name="correct">#FFFFFF</color>
+    <color name="pointStatusForRound">#00FF00</color>
+    
+    <color name="black_semitransparent">#80000000</color>
+    
+    
+</resources>

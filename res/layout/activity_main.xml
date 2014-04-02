@@ -1,0 +1,156 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="se.iandwe.fingerdancer.MainActivity"
+    >
+    
+    
+    <LinearLayout 
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:id="@+id/gameBox"
+        >
+        	<LinearLayout 
+        	    android:orientation="vertical"
+        	    android:layout_height="match_parent"
+        	    android:layout_width="wrap_content"
+        	    android:weightSum="3"
+        	    >
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn1"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn2"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn3"
+        	        />
+        	    
+        	</LinearLayout>
+        	
+        	<LinearLayout 
+        	    android:orientation="vertical"
+        	    android:layout_height="match_parent"
+        	    android:layout_width="wrap_content"
+        	    android:weightSum="3"
+        	    >
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn4"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn5"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn6"
+        	        />
+        	    
+        	</LinearLayout>
+        	
+        	<LinearLayout 
+        	    android:orientation="vertical"
+        	    android:layout_height="match_parent"
+        	    android:layout_width="wrap_content"
+        	    android:weightSum="3"
+        	    >
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn7"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn8"
+        	        />
+        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	        android:layout_height="0dp"
+        	        android:layout_weight="1"
+        	        android:layout_width="wrap_content"
+        	        android:id="@+id/btn9"
+        	        />
+        	    
+        	</LinearLayout>
+        
+    </LinearLayout>
+    <RelativeLayout 
+        android:layout_toLeftOf="@id/gameBox"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+        <TextView 
+            android:id="@+id/pointStatusTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/pointStatusTotal"
+            android:textColor="@color/pointStatusTotal"
+            android:layout_alignParentTop="true"
+            />
+        <TextView 
+            android:id="@+id/pointStatusForPush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/pointStatusForRound"
+            android:textSize="@dimen/pointStatusForPush"
+            android:layout_centerInParent="true"
+            />
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/roundFinishedView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/black_semitransparent"
+        android:visibility="invisible"
+        android:clickable="true"
+        >
+        <TextView 
+            android:id="@+id/roundFinishedInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pointStatusTotal"
+            android:textSize="@dimen/pointStatusTotal"
+            android:layout_centerInParent="true"
+            />
+        
+        <Button 
+            android:id="@+id/goagain"
+            android:text="Go again"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/roundFinishedInfo"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            />
+        
+    </RelativeLayout>
+    
+</RelativeLayout>
