@@ -8,6 +8,7 @@ import java.util.Map;
 import se.iandwe.fingerdancer.db.JSONHelper;
 import se.iandwe.fingerdancer.db.Settings;
 import se.iandwe.fingerdancer.gameobjects.ButtonDefault;
+import se.iandwe.fingerdancer.gameobjects.TapJava;
 import se.iandwe.fingerdancer.interfaces.OnResetSquare;
 import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 
@@ -20,13 +21,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnTouchButton {
 
-	private ArrayList<ButtonDefault> buttonArray;
+	private ArrayList<TapJava> buttonArray;
 	private ArrayList<OnResetSquare> resetSquareListeners;
 	private ArrayList<Integer> randomIntArray = new ArrayList<Integer>();
 	private boolean simultaneousPushIsOpen = false;
@@ -43,13 +47,17 @@ public class MainActivity extends Activity implements OnTouchButton {
 	public static final int S2 = R.raw.robotblip;
 	private int currentRound = 1;
 	private int currentRoundGameboard = 0;
+	private ArrayList<View> touchables;
+	
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		buttonArray = new ArrayList<ButtonDefault>();
+		
+		
+		buttonArray = new ArrayList<TapJava>();
 		resetSquareListeners = new ArrayList<OnResetSquare>();
 		initSounds(getApplicationContext());
 		pointStatusTotal = (TextView)findViewById(R.id.pointStatusTotal);
@@ -63,35 +71,48 @@ public class MainActivity extends Activity implements OnTouchButton {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				restartGame();
+			
 			}
 		});
+		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox);
+		touchables = gamebox.getTouchables();
+		/*
+		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox1);
 		
-		ButtonDefault btn1 = (ButtonDefault)findViewById(R.id.btn1);
 		
-		buttonArray.add(btn1);
+		//touchables = gamebox.getTouchables();
+		int count = 0;
 		
-		ButtonDefault btn2 = (ButtonDefault)findViewById(R.id.btn2);
-		buttonArray.add(btn2);
-		ButtonDefault btn3 = (ButtonDefault)findViewById(R.id.btn3);
-		buttonArray.add(btn3);
-		ButtonDefault btn4 = (ButtonDefault)findViewById(R.id.btn4);
-		buttonArray.add(btn4);
-		ButtonDefault btn5 = (ButtonDefault)findViewById(R.id.btn5);
-		buttonArray.add(btn5);
-		ButtonDefault btn6 = (ButtonDefault)findViewById(R.id.btn6);
-		buttonArray.add(btn6);
-		ButtonDefault btn7 = (ButtonDefault)findViewById(R.id.btn7);
-		buttonArray.add(btn7);
-		ButtonDefault btn8 = (ButtonDefault)findViewById(R.id.btn8);
-		buttonArray.add(btn8);
-		ButtonDefault btn9 = (ButtonDefault)findViewById(R.id.btn9);
-		buttonArray.add(btn9);
+		for (int i = 0; i < 9; i++) {
+			
+			randomIntArray.add(count);
+			final TapJava animView = new TapJava(this, count);
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,0,1);
+			params.weight = 1;
+	    	animView.setLayoutParams(params);
+	    	
+			gamebox.addView(animView);
+	    	count++;
+			
+		}
 		
-		for(int i = 0; i < buttonArray.size(); i++)
-		{
-			randomIntArray.add(i);
-			setResetSquareListener(buttonArray.get(i));
-			buttonArray.get(i).setOnTouchListener(this);
+		LinearLayout gamebox2 = (LinearLayout)findViewById(R.id.gameBox2);
+		
+		
+		//touchables = gamebox.getTouchables();
+		
+		*/	
+		int count = 0;
+		for(View touchable : touchables) {
+		    if(touchable instanceof TapJava) {
+		    	Log.i("test", "found");
+		    	randomIntArray.add(count);
+		    	TapJava currentButton = (TapJava)touchable;
+		    	buttonArray.add(currentButton);
+		    	setResetSquareListener(currentButton);
+		    	currentButton.setOnTouchListener(this);
+		    	count++;
+		    }
 		}
 		
 		reset();
@@ -179,7 +200,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	}
 
 	@Override
-	public void onTouchButton(boolean correctAnswer, ButtonDefault pushedButton) {
+	public void onTouchButton(boolean correctAnswer, TapJava pushedButton) {
 		// TODO Auto-generated method stub
 		if(!receivedPushFromThisRound)
 		{

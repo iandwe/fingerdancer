@@ -1,9 +1,9 @@
 package se.iandwe.fingerdancer.interfaces;
 
-import se.iandwe.fingerdancer.gameobjects.ButtonDefault;
+import se.iandwe.fingerdancer.gameobjects.TapJava;
 
 
 public interface OnTouchButton {
-	void onTouchButton(boolean correctAnswer, ButtonDefault btnPushed);
+	void onTouchButton(boolean correctAnswer, TapJava btnPushed);
 }
 
