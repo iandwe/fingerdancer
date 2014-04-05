@@ -106,9 +106,9 @@ public class ButtonDefault extends ImageButton implements OnResetSquare, View.On
 	public void setColor(int color)
 	{
 		//TransitionDrawable td = (TransitionDrawable) this.getBackground();
-		Log.i("special","innan sätter color");
+		//Log.i("special","innan sätter color");
 		this.setBackgroundResource(color);
-		Log.i("special","efter sätter color");
+		//Log.i("special","efter sätter color");
 	}
 	
 	private void resetColor()

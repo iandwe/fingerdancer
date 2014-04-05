@@ -1,5 +1,6 @@
 package se.iandwe.fingerdancer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,11 +47,12 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private static Map<Integer, Integer> soundPoolMap;
 	public static final int S1 = R.raw.computererror;
 	public static final int S2 = R.raw.robotblip;
+	//public static final int S3 = R.raw.diplo_oboy;
 	private int currentRound = 1;
 	private int currentRoundGameboard = 0;
 	private ArrayList<View> touchables;
-	
-	
+	private MediaPlayer mediaPlayer;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +117,16 @@ public class MainActivity extends Activity implements OnTouchButton {
 		    	count++;
 		    }
 		}
+		new Handler().postDelayed(new Runnable() {
+	        @Override
+	        public void run() {
+	        	reset();
+	        	//playSound(getApplicationContext(), S3);
+	        	playBackgroundMusic();
+	        }
+	    }, Settings.DELAY_BEFORE_STARTING_GAME);
 		
-		reset();
+		
 		
 	}
 	
@@ -125,6 +136,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	soundPoolMap = new HashMap(2);
 	soundPoolMap.put( S1, soundPool.load(context, S1, 1) );
 	soundPoolMap.put( S2, soundPool.load(context, S2, 2) );
+	//soundPoolMap.put( S3, soundPool.load(context, S3, 1) );
 	}
 	
 	/** Play a given sound in the soundPool */
@@ -138,7 +150,35 @@ public class MainActivity extends Activity implements OnTouchButton {
 	    // zero repeats (i.e play once), and a playback rate of 1f
 	    soundPool.play(soundPoolMap.get(soundID), volume, volume, 1, 0, 1f);
 	 }
+	 
+	 private void playBackgroundMusic()
+	 {
+		 
+		 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.shortbeat);		
+		 mediaPlayer.start();
+	 }
+	 
+	 @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onpause called");
+		super.onPause();
+	}
 	
+	 @Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onstop called");
+		super.onStop();
+	}
+	 
+	 @Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		 Log.i("special","onresume called");
+		super.onResume();
+	}
+	 
 	private int[] getArrayWithRandomCorrectAnswers(int amountOfCorrectAnswersNeeded)
     {
 		int[] arrayToBeReturned = new int[(amountOfCorrectAnswersNeeded)];
@@ -181,6 +221,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		madeError = false;
 		if(currentRoundGameboard == Settings.ROUND_ONE_SIZE)
 		{
+			
 			showRoundInfoView("");
 		}
 		else
@@ -196,6 +237,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		currentRoundGameboard = 0;
 		totalPointsForRound = 0;
 		setPointsTotal();
+		playBackgroundMusic();
 		startRound();
 	}
 
