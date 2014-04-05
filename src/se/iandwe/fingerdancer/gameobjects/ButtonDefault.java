@@ -8,10 +8,15 @@ import se.iandwe.fingerdancer.interfaces.OnResetSquare;
 import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.TransitionDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 
 public class ButtonDefault extends ImageButton implements OnResetSquare, View.OnClickListener {
@@ -24,6 +29,11 @@ public class ButtonDefault extends ImageButton implements OnResetSquare, View.On
 	private boolean isCorrectAnswer = false;
 	private OnTouchButton listenerForClick;
 	private boolean shouldTransitionBackOnReset = false;
+	private int[] hexColors = {
+			0xFFE563F6,
+			0xFF50E3C2,
+			0xFF86DDF2
+	};
 	//private int id;
 
 	public ButtonDefault(Context context) {
@@ -32,16 +42,15 @@ public class ButtonDefault extends ImageButton implements OnResetSquare, View.On
 	}
 
 	public ButtonDefault(Context context, AttributeSet attrs) {
-		
 		super(context, attrs);
 		setOnClickListener(this);
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	public ButtonDefault(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
-		
 	}
 	
 	@Override
@@ -140,8 +149,7 @@ public class ButtonDefault extends ImageButton implements OnResetSquare, View.On
 	@Override
 	public void onReset(boolean _isCorrectAnswer) {
 		// TODO Auto-generated method stub
-		if(shouldTransitionBackOnReset)
-		{
+		if(shouldTransitionBackOnReset){
 			animateBack();
 		}
 		isCorrectAnswer = _isCorrectAnswer;

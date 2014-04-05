@@ -21,19 +21,19 @@
         	    android:layout_width="wrap_content"
         	    android:weightSum="3"
         	    >
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn1"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn2"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
@@ -48,19 +48,21 @@
         	    android:layout_width="wrap_content"
         	    android:weightSum="3"
         	    >
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+
+        	    
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn4"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn5"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
@@ -75,19 +77,19 @@
         	    android:layout_width="wrap_content"
         	    android:weightSum="3"
         	    >
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn7"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
         	        android:id="@+id/btn8"
         	        />
-        	    <se.iandwe.fingerdancer.gameobjects.ButtonDefault 
+        	    <se.iandwe.fingerdancer.gameobjects.TapJava 
         	        android:layout_height="0dp"
         	        android:layout_weight="1"
         	        android:layout_width="wrap_content"
@@ -95,6 +97,7 @@
         	        />
         	    
         	</LinearLayout>
+        	
         
     </LinearLayout>
     <RelativeLayout 
