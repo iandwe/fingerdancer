@@ -48,11 +48,15 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
         
         private OnTouchButton listenerForClick;
         private boolean isCorrectAnswer = false;
-        private int activeColor = 0xffFF8AF5;
+        public int activeColor = 0xffFF8AF5;
         private int inactiveColor = 0xff50E3C2;
         private int activeShadow = 0xffAE5EB1;
         private ShapeHolder front;
         private ShapeHolder shadow;
+        private int upY = 5;
+        private int upX = 10;
+        private int downY = 15;
+        private int downX = 0;
         
 
         public TapJava(Context context) {
@@ -74,7 +78,7 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
     	
     	private void init() {
     		this.shadow = addSquare(0, 25f, this.activeShadow);
-            this.front = addSquare(0, 25f, this.activeColor);
+            this.front = addSquare(0, 25f, this.inactiveColor);
             setOnClickListener(this);
     	}
 
@@ -82,9 +86,9 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 		private void downAnimation() {
         	AnimatorSet animation = null;
             ObjectAnimator anim1 = ObjectAnimator.ofFloat(shapes.get(1), "y",
-            		shapes.get(1).getY(), 5).setDuration(100);
+            		this.front.getY(), this.downY).setDuration(100);
             ObjectAnimator anim2 = ObjectAnimator.ofFloat(shapes.get(1), "x",
-            		shapes.get(1).getX(), 5).setDuration(100);
+            		this.front.getX(), this.downX).setDuration(100);
             
             anim1.addUpdateListener(this);
             anim2.addUpdateListener(this);
@@ -97,13 +101,13 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
             ObjectAnimator anim1 = ObjectAnimator.ofFloat(
             		this.front, 
             		"y",
-            		5, 
-            		17).setDuration(100);
+            		this.front.getY(), 
+            		this.upY).setDuration(100);
             ObjectAnimator anim2 = ObjectAnimator.ofFloat(
             		this.front, 
             		"x",
-            		5, 
-            		17).setDuration(100);
+            		this.front.getX(), 
+            		this.upX).setDuration(100);
             
             anim1.addUpdateListener(this);
             anim2.addUpdateListener(this);
@@ -116,11 +120,11 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
         private ShapeHolder addSquare(float x, float y, int color) {
         	float[] outerR = new float[] { 25, 25, 25, 25, 25, 25, 25, 25 };
         	RoundRectShape box = new RoundRectShape(outerR, null, null);
-        	box.resize(310, 310);
+        	box.resize(290, 290);
             ShapeDrawable drawable = new ShapeDrawable(box);
             ShapeHolder shapeHolder = new ShapeHolder(drawable);
-            shapeHolder.setX(5);
-            shapeHolder.setY(5);
+            shapeHolder.setX(this.downX);
+            shapeHolder.setY(this.downY);
             /*
             int red = (int)(100 + Math.random() * 155);
             int green = (int)(100 + Math.random() * 155);
@@ -189,7 +193,6 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 		
 		public void onReset(boolean _isCorrectAnswer) {
 			// TODO Auto-generated method stub
-			Log.i("Reset", Boolean.toString(_isCorrectAnswer));
 			
 			if (_isCorrectAnswer) {
 				front.getPaint().setColor(this.activeColor);
