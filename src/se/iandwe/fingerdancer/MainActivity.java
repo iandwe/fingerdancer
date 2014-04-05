@@ -33,7 +33,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnTouchButton {
 
 	private ArrayList<TapJava> buttonArray;
-	private ArrayList<OnResetSquare> resetSquareListeners;
+	private ArrayList<TapJava> resetSquareListeners;
 	private ArrayList<Integer> randomIntArray = new ArrayList<Integer>();
 	private boolean simultaneousPushIsOpen = false;
 	private boolean receivedPushFromThisRound = false;
@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		
 		
 		buttonArray = new ArrayList<TapJava>();
-		resetSquareListeners = new ArrayList<OnResetSquare>();
+		resetSquareListeners = new ArrayList<TapJava>();
 		initSounds(getApplicationContext());
 		pointStatusTotal = (TextView)findViewById(R.id.pointStatusTotal);
 		pointStatusTotal.setText("0 points");
@@ -79,32 +79,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 		});
 		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox);
 		touchables = gamebox.getTouchables();
-		/*
-		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox1);
-		
-		
-		//touchables = gamebox.getTouchables();
-		int count = 0;
-		
-		for (int i = 0; i < 9; i++) {
-			
-			randomIntArray.add(count);
-			final TapJava animView = new TapJava(this, count);
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,0,1);
-			params.weight = 1;
-	    	animView.setLayoutParams(params);
-	    	
-			gamebox.addView(animView);
-	    	count++;
-			
-		}
-		
-		LinearLayout gamebox2 = (LinearLayout)findViewById(R.id.gameBox2);
-		
-		
-		//touchables = gamebox.getTouchables();
-		
-		*/	
 		int count = 0;
 		for(View touchable : touchables) {
 		    if(touchable instanceof TapJava) {
@@ -132,18 +106,18 @@ public class MainActivity extends Activity implements OnTouchButton {
 	
 	/** Populate the SoundPool*/
 	public static void initSounds(Context context) {
-	soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
-	soundPoolMap = new HashMap(2);
-	soundPoolMap.put( S1, soundPool.load(context, S1, 1) );
-	soundPoolMap.put( S2, soundPool.load(context, S2, 2) );
-	//soundPoolMap.put( S3, soundPool.load(context, S3, 1) );
+		soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+		soundPoolMap = new HashMap(2);
+		soundPoolMap.put( S1, soundPool.load(context, S1, 1) );
+		soundPoolMap.put( S2, soundPool.load(context, S2, 2) );
+		//soundPoolMap.put( S3, soundPool.load(context, S3, 1) );
 	}
 	
 	/** Play a given sound in the soundPool */
 	 public static void playSound(Context context, int soundID) {
-	if(soundPool == null || soundPoolMap == null){
-	   initSounds(context);
-	}
+		if(soundPool == null || soundPoolMap == null){
+		   initSounds(context);
+		}
 	    float volume = 1;// whatever in the range = 0.0 to 1.0
 
 	    // play sound with same right and left volume, with a priority of 1, 
@@ -190,7 +164,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		return arrayToBeReturned;
     }
 	
-	private void setResetSquareListener(OnResetSquare _listener)
+	private void setResetSquareListener(TapJava _listener)
 	{
 		resetSquareListeners.add(_listener);
 	}

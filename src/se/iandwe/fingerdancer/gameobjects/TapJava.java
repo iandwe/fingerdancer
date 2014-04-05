@@ -38,11 +38,11 @@ import android.view.animation.TranslateAnimation;
 
 import java.util.ArrayList;
 
-import se.iandwe.fingerdancer.interfaces.OnResetSquare;
+
 import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 
     @SuppressLint("NewApi")
-	public class TapJava extends View implements ValueAnimator.AnimatorUpdateListener, OnResetSquare, View.OnClickListener {
+	public class TapJava extends View implements ValueAnimator.AnimatorUpdateListener, View.OnClickListener {
 
         public final ArrayList<ShapeHolder> shapes = new ArrayList<ShapeHolder>();
         
@@ -186,7 +186,7 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 			this.checkIfRightAnswer();
 		}
 
-		@Override
+		
 		public void onReset(boolean _isCorrectAnswer) {
 			// TODO Auto-generated method stub
 			Log.i("Reset", Boolean.toString(_isCorrectAnswer));
