@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import se.iandwe.fingerdancer.db.JSONHelper;
 import se.iandwe.fingerdancer.db.Settings;
@@ -52,6 +53,14 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private int currentRoundGameboard = 0;
 	private ArrayList<View> touchables;
 	private MediaPlayer mediaPlayer;
+	private int[] activeColors = {
+			0xffFF8AF5,
+			0xff83C5F4
+	};
+	private int[] inactiveColors = {
+			0xff50E3C2, 
+			0xff7ED321
+	};
 
 	
 	@Override
@@ -99,9 +108,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 	        	playBackgroundMusic();
 	        }
 	    }, Settings.DELAY_BEFORE_STARTING_GAME);
-		
-		
-		
 	}
 	
 	/** Populate the SoundPool*/
@@ -174,14 +180,15 @@ public class MainActivity extends Activity implements OnTouchButton {
 		currentRoundGameboard += 1;
 		emptyRoundPoints();
 		receivedPushFromThisRound = false;
-		int[] correctAnswers = getArrayWithRandomCorrectAnswers(3);
-		for(int i = 0; i < resetSquareListeners.size(); i++)
-		{
+		Random r = new Random();
+		int amountOfAnswers = currentRoundGameboard > 3 ? r.nextInt(5 - 2) + 2 : currentRoundGameboard;
+		Log.i("AMOUNT OF ANSWERS", Integer.toString(amountOfAnswers));
+		int[] correctAnswers = getArrayWithRandomCorrectAnswers(amountOfAnswers);
+		for(int i = 0; i < resetSquareListeners.size(); i++){
 			boolean foundMatch = false;
-			for(int j = 0; j < correctAnswers.length; j++)
-			{
-				if(correctAnswers[j] == i)
-				{
+			for(int j = 0; j < correctAnswers.length; j++) {
+				//int colorIndex = r.nextInt(currentRoundGameboard > 3 ? 4 : 1 - 1) + 1;
+				if(correctAnswers[j] == i) {
 					foundMatch = true;
 					resetSquareListeners.get(i).onReset(true);
 					break;
