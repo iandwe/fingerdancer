@@ -71,13 +71,13 @@ public class ButtonDefault extends ImageButton implements OnResetSquare, View.On
 		if(!isCorrectAnswer)
 		{
 			Log.i("special","feel");
-			listenerForClick.onTouchButton(false, this);
+			//listenerForClick.onTouchButton(false, this);
 			showErrorColor();
 		}
 		else
 		{
 			Log.i("special","correct");
-			listenerForClick.onTouchButton(true, this);
+			//listenerForClick.onTouchButton(true, this);
 			
 		}
 		

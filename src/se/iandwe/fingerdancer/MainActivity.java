@@ -215,7 +215,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 			{
 				Log.i("special","rätt hann i tid");
 				pointsForRound += 1;
-				pushedButton.animateBecauseOfCorrectPush();
+				
 				playSound(getApplicationContext(),S1);
 			}
 			else
