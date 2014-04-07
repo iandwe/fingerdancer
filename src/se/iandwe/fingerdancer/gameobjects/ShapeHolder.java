@@ -36,8 +36,8 @@ public class ShapeHolder {
     private Paint paint;
 	private int areaWidth;
 	private int areaHeight;
-	private int percentHeight = 100;
-	private int percentWidth = 100;
+	private float percentHeight = 100.0f;
+	private float percentWidth = 100.0f;
 
     public void setPaint(Paint value) {
         paint = value;
@@ -116,22 +116,21 @@ public class ShapeHolder {
     	return this.areaHeight;
     }
     
-    public void setPercentWidth(int percent) {
+    public void setPercentWidth(float percent) {
     	this.percentWidth = percent;
     	Shape s = shape.getShape();
-        s.resize((float)(this.areaWidth*(this.percentWidth/100.0f)), s.getHeight());
+        s.resize(this.areaWidth*(this.percentWidth/100.0f), s.getHeight());
     }
     
-    public void setPercentHeight(int percent) {
+    public void setPercentHeight(float percent) {
     	this.percentHeight = percent;
     	Shape s = shape.getShape();
-    	Log.i("Shapeholder>height>", Integer.toString(this.areaHeight));
         s.resize(s.getWidth(), this.areaHeight*(this.percentHeight/100.0f));
     }
-    public int getPercentHeight(){
+    public float getPercentHeight(){
     	return this.percentHeight;
     }
-    public int getPercentWidth() {
+    public float getPercentWidth() {
     	return this.percentWidth;
     }
     

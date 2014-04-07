@@ -61,6 +61,7 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
         private int downX = 0;
 		private int viewWidth  = 1;
 		private int viewHeight = 1;
+		private AnimatorSet circleAnim;
 
         public TapJava(Context context) {
             super(context);
@@ -86,6 +87,33 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
             setOnClickListener(this);
     	}
     	
+    	private void showCircleAnim (){
+    		
+    		if (this.circleAnim == null) {
+	    		this.circleAnim = new AnimatorSet();
+	    		ObjectAnimator ci = ObjectAnimator.ofFloat(this.circle, "percentWidth",
+	            		40, 60).setDuration(1000);
+	            ObjectAnimator ch = ObjectAnimator.ofFloat(this.circle, "percentHeight",
+	            		40, 60).setDuration(1000);
+	            ObjectAnimator cy = ObjectAnimator.ofFloat(this.circle, "y",
+	            		90, 60).setDuration(1000);
+	            ObjectAnimator cx = ObjectAnimator.ofFloat(this.circle, "x",
+	            		90, 60).setDuration(1000);
+	            		
+	            ci.addUpdateListener(this);
+	            ch.addUpdateListener(this);
+	            this.circleAnim.play(ci).with(ch).with(cy).with(cx);
+    		}
+    		this.circleAnim.start();
+    		
+            
+    	}
+    	private void stopCircleAnim (){
+    		if (this.circleAnim != null) {
+    			this.circleAnim.cancel();
+    		}
+    	}
+    	
 
         @SuppressLint("NewApi")
 		private void downAnimation() {
@@ -97,18 +125,16 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
             ObjectAnimator anim2 = ObjectAnimator.ofFloat(shapes.get(1), "x",
             		this.front.getX(), this.downX).setDuration(100);
             
-            ObjectAnimator ci = ObjectAnimator.ofFloat(this.circle, "width",
-            		this.circle.getWidth(), 300).setDuration(100);
-            ObjectAnimator ch = ObjectAnimator.ofFloat(this.circle, "height",
-            		this.circle.getHeight(), 300).setDuration(100);
+            this.circle.setPercentHeight(0);
+            this.circle.setPercentWidth(0);
             
             anim1.addUpdateListener(this);
             anim2.addUpdateListener(this);
-            ci.addUpdateListener(this);
-            ch.addUpdateListener(this);
+            
             animation = new AnimatorSet();
-            animation.play(anim1).with(anim2).with(ci).with(ch);
+            animation.play(anim1).with(anim2);
             animation.start();
+            this.stopCircleAnim();
         }
         private void upAnimation() {
         	
@@ -122,13 +148,14 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
             		this.front, 
             		"x",
             		this.front.getX(), 
-            		this.upX).setDuration(100);
-            
+            		this.upX).setDuration(100);		
+             
             anim1.addUpdateListener(this);
             anim2.addUpdateListener(this);
             animation = new AnimatorSet();
             animation.play(anim1).with(anim2);
             animation.start();
+            this.showCircleAnim();
             
         }
 
@@ -142,8 +169,8 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
             ShapeHolder shapeHolder = new ShapeHolder(drawable);
             shapeHolder.setX(this.downX);
             shapeHolder.setY(this.downY);
-            shapeHolder.setPercentHeight(90);
-            shapeHolder.setPercentWidth(90);
+            shapeHolder.setPercentHeight(90.0f);
+            shapeHolder.setPercentWidth(90.0f);
             /*
             int red = (int)(100 + Math.random() * 155);
             int green = (int)(100 + Math.random() * 155);
@@ -158,16 +185,15 @@ import se.iandwe.fingerdancer.interfaces.OnTouchButton;
         }
         
         private ShapeHolder createCircle() {
-        	Log.i("Tap", "CREATE CIRCLE: " + Integer.toString(this.viewWidth) + " " + Integer.toString(this.viewHeight));
         	OvalShape c = new OvalShape();
         	c.resize(50, 50);
             ShapeDrawable drawable = new ShapeDrawable(c);
             ShapeHolder shapeHolder = new ShapeHolder(drawable);
             shapeHolder.setX(80);
             shapeHolder.setY(80);
-            shapeHolder.setPercentHeight(10);
-            shapeHolder.setPercentWidth(10);
-            shapeHolder.setAlpha((float)0.5);
+            shapeHolder.setPercentHeight(10.0f);
+            shapeHolder.setPercentWidth(10.0f);
+            shapeHolder.setAlpha((float)0.2);
             Paint paint = drawable.getPaint(); //new Paint(Paint.ANTI_ALIAS_FLAG);
             
             int red = (int)(100 + Math.random() * 155);
