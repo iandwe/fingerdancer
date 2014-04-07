@@ -20,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -33,6 +34,10 @@ public class ShapeHolder {
     private RadialGradient gradient;
     private float alpha = 1f;
     private Paint paint;
+	private int areaWidth;
+	private int areaHeight;
+	private int percentHeight = 100;
+	private int percentWidth = 100;
 
     public void setPaint(Paint value) {
         paint = value;
@@ -89,10 +94,47 @@ public class ShapeHolder {
     public float getHeight() {
         return shape.getShape().getHeight();
     }
+    
     public void setHeight(float height) {
         Shape s = shape.getShape();
         s.resize(s.getWidth(), height);
     }
+    
+    public void setAreaWidth(int pixels) {
+    	this.areaWidth = pixels;
+    	this.setPercentWidth(this.percentWidth);
+    }
+    public int getAreaWidth() {
+    	return this.areaWidth;
+    }
+    
+    public void setAreaHeight(int pixels) {
+    	this.areaHeight = pixels;
+    	this.setPercentHeight(this.percentHeight);   	
+    }
+    public int getAreaHeight() {
+    	return this.areaHeight;
+    }
+    
+    public void setPercentWidth(int percent) {
+    	this.percentWidth = percent;
+    	Shape s = shape.getShape();
+        s.resize((float)(this.areaWidth*(this.percentWidth/100.0f)), s.getHeight());
+    }
+    
+    public void setPercentHeight(int percent) {
+    	this.percentHeight = percent;
+    	Shape s = shape.getShape();
+    	Log.i("Shapeholder>height>", Integer.toString(this.areaHeight));
+        s.resize(s.getWidth(), this.areaHeight*(this.percentHeight/100.0f));
+    }
+    public int getPercentHeight(){
+    	return this.percentHeight;
+    }
+    public int getPercentWidth() {
+    	return this.percentWidth;
+    }
+    
 
     public ShapeHolder(ShapeDrawable s) {
         shape = s;
