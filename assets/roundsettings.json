@@ -1,0 +1,23 @@
+[
+	{
+        "title": "level one",
+        "roundTime": 1150,
+        "amountRounds": 26,
+        "musicLength": 32000,
+        "numButtons": 2
+    },
+    {
+        "title": "level two",
+        "roundTime": 1150,
+        "amountRounds": 26,
+        "musicLength": 32000,
+        "numButtons": 2
+    },
+    {
+        "title": "level three",
+        "roundTime": 1150,
+        "amountRounds": 26,
+        "musicLength": 32000,
+        "numButtons": 2
+    }
+]

@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import se.iandwe.fingerdancer.db.JSONHelper;
-import se.iandwe.fingerdancer.db.Settings;
-import se.iandwe.fingerdancer.gameobjects.ButtonDefault;
-import se.iandwe.fingerdancer.gameobjects.TapJava;
-import se.iandwe.fingerdancer.interfaces.OnResetSquare;
-import se.iandwe.fingerdancer.interfaces.OnTouchButton;
+import org.json.JSONArray;
+import org.json.JSONException;
 
+import se.iandwe.fingerdancer.db.JSONHelper;
+import se.iandwe.fingerdancer.db.JSONSharedPreferences;
+import se.iandwe.fingerdancer.db.Settings;
+import se.iandwe.fingerdancer.gameobjects.RoundObj;
+import se.iandwe.fingerdancer.gameobjects.TapJava;
+import se.iandwe.fingerdancer.interfaces.OnTouchButton;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
@@ -24,8 +26,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,31 +44,28 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private int pointsForRound = 0;
 	private boolean madeError = false;
 	private static SoundPool soundPool;
-	//private static HashMap soundPoolMap;
 	private static Map<Integer, Integer> soundPoolMap;
 	public static final int S1 = R.raw.computererror;
 	public static final int S2 = R.raw.robotblip;
-	//public static final int S3 = R.raw.diplo_oboy;
-	private int currentRound = 1;
 	private int currentRoundGameboard = 0;
 	private ArrayList<View> touchables;
+	private ArrayList<RoundObj> roundObjects;
 	private MediaPlayer mediaPlayer;
-	private int[] activeColors = {
+	/*private int[] activeColors = {
 			0xffFF8AF5,
 			0xff83C5F4
 	};
 	private int[] inactiveColors = {
 			0xff50E3C2, 
 			0xff7ED321
-	};
+	};*/
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
+		fetchRoundObjects();
 		buttonArray = new ArrayList<TapJava>();
 		resetSquareListeners = new ArrayList<TapJava>();
 		initSounds(getApplicationContext());
@@ -78,12 +75,9 @@ public class MainActivity extends Activity implements OnTouchButton {
 		
 		Button goagain = (Button)findViewById(R.id.goagain);
 		goagain.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				restartGame();
-			
 			}
 		});
 		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox);
@@ -91,7 +85,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 		int count = 0;
 		for(View touchable : touchables) {
 		    if(touchable instanceof TapJava) {
-		    	Log.i("test", "found");
 		    	randomIntArray.add(count);
 		    	TapJava currentButton = (TapJava)touchable;
 		    	buttonArray.add(currentButton);
@@ -104,7 +97,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 	        @Override
 	        public void run() {
 	        	reset();
-	        	//playSound(getApplicationContext(), S3);
 	        	playBackgroundMusic();
 	        }
 	    }, Settings.DELAY_BEFORE_STARTING_GAME);
@@ -116,7 +108,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 		soundPoolMap = new HashMap(2);
 		soundPoolMap.put( S1, soundPool.load(context, S1, 1) );
 		soundPoolMap.put( S2, soundPool.load(context, S2, 2) );
-		//soundPoolMap.put( S3, soundPool.load(context, S3, 1) );
 	}
 	
 	/** Play a given sound in the soundPool */
@@ -131,9 +122,36 @@ public class MainActivity extends Activity implements OnTouchButton {
 	    soundPool.play(soundPoolMap.get(soundID), volume, volume, 1, 0, 1f);
 	 }
 	 
+	 private void fetchRoundObjects()
+	 {
+		 //hämtar json data om levels settings från lokal jsonfil, skapar array med roundobjects.
+		 
+		 String jsondata = null;
+	    	try {
+				jsondata = JSONHelper.jsonToStringFromAssetFolder("roundsettings.json", this);
+				try {
+					JSONArray fetchedGamedata = new JSONArray(jsondata);
+					roundObjects = new ArrayList<RoundObj>();
+					for(int i = 0; i < fetchedGamedata.length(); i++)
+					{
+						RoundObj ro = new RoundObj(fetchedGamedata.getJSONObject(i));
+						roundObjects.add(ro);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					//critical, try create again or quit app with error message?
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				//critical, try fetch again or quit app with error message?
+			}
+	    	
+	    	
+	    	
+	 }
+	 
 	 private void playBackgroundMusic()
 	 {
-		 
 		 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.shortbeat);		
 		 mediaPlayer.start();
 	 }
@@ -200,10 +218,9 @@ public class MainActivity extends Activity implements OnTouchButton {
 			}	
 		}
 		madeError = false;
-		if(currentRoundGameboard == Settings.ROUND_ONE_SIZE)
+		if(currentRoundGameboard == Settings.LEVEL_ONE_SIZE)
 		{
-			
-			showRoundInfoView("");
+			showResultForFinishedLevel("");
 		}
 		else
 		{
@@ -224,7 +241,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 
 	@Override
 	public void onTouchButton(boolean correctAnswer, TapJava pushedButton) {
-		// TODO Auto-generated method stub
 		if(!receivedPushFromThisRound)
 		{
 			simultaneousPushIsOpen = true;
@@ -257,7 +273,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 	
 	private void setPointsTotal()
 	{
-		
 		pointStatusTotal.setText(Integer.toString(totalPointsForRound));
 	}
 	
@@ -295,7 +310,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	    }, Settings.ROUND_TIME);
 	}
 
-	private void showRoundInfoView(String info)
+	private void showResultForFinishedLevel(String info)
 	{
 		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
 		back.setVisibility(View.VISIBLE);
@@ -308,19 +323,12 @@ public class MainActivity extends Activity implements OnTouchButton {
 		else{
 			tv.setText("The round is finished MF! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
 		}
-		
-		
-			
-		
-		
 	}
 	
 	private void hideInfoView()
 	{
 		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
 		back.setVisibility(View.INVISIBLE);
-		//TextView tv = (TextView)findViewById(R.id.roundFinishedInfo);
-		//tv.setText("Congratulations! you finished round " + currentRound + "\n\nTotalpoints: " + totalPointsForRound);
 	}
 	
 
