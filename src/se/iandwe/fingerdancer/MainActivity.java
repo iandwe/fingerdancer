@@ -57,6 +57,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private boolean onPauseWasTriggered;
 	private Handler startRoundHandler;
 	private Handler startSimBlockHandler;
+	private boolean gameOver;
 	
 
 	
@@ -153,6 +154,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	 private void playBackgroundMusic()
 	 {
 		 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.shortbeat);		
+		 mediaPlayer.setLooping(true);
 		 mediaPlayer.start();
 	 }
 	 
@@ -251,10 +253,10 @@ public class MainActivity extends Activity implements OnTouchButton {
 			}	
 		}
 		madeError = false;
-		if(currentRoundGameboard == Settings.LEVEL_ONE_SIZE)
+		if(gameOver)
 		{
-			showResultForFinishedLevel("");
-			gameIsRunning = false;
+			gameOver();
+			
 		}
 		else
 		{
@@ -265,6 +267,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	
 	private void restartGame()
 	{
+		gameOver = false;
 		hideInfoView();
 		currentRoundGameboard = 0;
 		totalPointsForRound = 0;
@@ -296,6 +299,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 				madeError = true;
 				pointsForRound = 0;
 				playSound(getApplicationContext(),S2);
+				gameOver = true;
 			}
 		}
 	}
@@ -333,6 +337,14 @@ public class MainActivity extends Activity implements OnTouchButton {
 	    }, Settings.SIMULTANEOUS_PUSH_FORGIVENESSTIME);
 	}
 	
+	private void gameOver()
+	{
+		showResultForFinishedLevel("");
+		gameIsRunning = false;
+		mediaPlayer.stop();
+		mediaPlayer = null;
+	}
+	
 	private void startRound()
 	{
 		startRoundHandler = new Handler(); 
@@ -341,8 +353,18 @@ public class MainActivity extends Activity implements OnTouchButton {
 	        public void run() {
 	        	if(!onPauseWasTriggered)
 	        	{
-	        		setPointsTotal();
-		        	reset();
+	        		if(!receivedPushFromThisRound)
+	        		{
+	        			gameOver = true;
+	        			setPointsTotal();
+			        	reset();
+	        		}
+	        		else
+	        		{
+	        			setPointsTotal();
+			        	reset();
+	        		}
+	        		
 	        	}
 	        }
 	    }, Settings.ROUND_TIME);
@@ -360,7 +382,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 			tv.setText("Congratulations to your new highscore!\n\nOld record: " + oldrec +"\n\nNew record: " + totalPointsForRound);
 		}
 		else{
-			tv.setText("The round is finished! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
+			tv.setText("Gameover! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
 		}
 	}
 	
