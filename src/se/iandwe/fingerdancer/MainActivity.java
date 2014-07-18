@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import se.iandwe.fingerdancer.db.JSONHelper;
 import se.iandwe.fingerdancer.db.JSONSharedPreferences;
+import se.iandwe.fingerdancer.db.Logger;
 import se.iandwe.fingerdancer.db.Settings;
 import se.iandwe.fingerdancer.gameobjects.RoundObj;
 import se.iandwe.fingerdancer.gameobjects.TapJava;
@@ -51,14 +52,12 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private ArrayList<View> touchables;
 	private ArrayList<RoundObj> roundObjects;
 	private MediaPlayer mediaPlayer;
-	/*private int[] activeColors = {
-			0xffFF8AF5,
-			0xff83C5F4
-	};
-	private int[] inactiveColors = {
-			0xff50E3C2, 
-			0xff7ED321
-	};*/
+	private boolean mediaPlayerHasBeenPaused;
+	private boolean gameIsRunning;
+	private boolean onPauseWasTriggered;
+	private Handler startRoundHandler;
+	private Handler startSimBlockHandler;
+	
 
 	
 	@Override
@@ -98,6 +97,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	        public void run() {
 	        	reset();
 	        	playBackgroundMusic();
+	        	gameIsRunning = true;
 	        }
 	    }, Settings.DELAY_BEFORE_STARTING_GAME);
 	}
@@ -160,9 +160,40 @@ public class MainActivity extends Activity implements OnTouchButton {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		 Log.i("special","onpause called");
+		 pauseStuffRunning();
 		super.onPause();
 	}
+	 
+	 private void pauseStuffRunning()
+	 {
+		 onPauseWasTriggered = true;
+		 if(mediaPlayer != null && mediaPlayer.isPlaying())
+		 {
+			 Logger.logThis(Logger.LOG_STATES, "paused, will pause mediaplayer");
+			 mediaPlayer.pause();
+			 mediaPlayerHasBeenPaused = true;
+		 }
+		 
+		 
+	 }
 	
+	 private void resumeStuffPaused()
+	 {
+		 if(onPauseWasTriggered && gameIsRunning)
+		 {
+			 startSimultaneousPushBlocker();
+			 startRound();
+		 }
+		 onPauseWasTriggered = false;
+		 if(mediaPlayer != null && !mediaPlayer.isPlaying() && mediaPlayerHasBeenPaused)
+		 {
+			 Logger.logThis(Logger.LOG_STATES, "resumed, will resume mediaplayer");
+			 mediaPlayer.start();
+			 mediaPlayerHasBeenPaused = false;
+		 }
+		 
+	 }
+	 
 	 @Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
@@ -174,7 +205,9 @@ public class MainActivity extends Activity implements OnTouchButton {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		 Log.i("special","onresume called");
+		 resumeStuffPaused();
 		super.onResume();
+		
 	}
 	 
 	private int[] getArrayWithRandomCorrectAnswers(int amountOfCorrectAnswersNeeded)
@@ -221,6 +254,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		if(currentRoundGameboard == Settings.LEVEL_ONE_SIZE)
 		{
 			showResultForFinishedLevel("");
+			gameIsRunning = false;
 		}
 		else
 		{
@@ -237,6 +271,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		setPointsTotal();
 		playBackgroundMusic();
 		startRound();
+		gameIsRunning = true;
 	}
 
 	@Override
@@ -252,7 +287,6 @@ public class MainActivity extends Activity implements OnTouchButton {
 		{
 			if(correctAnswer && !madeError)
 			{
-				Log.i("special","rätt hann i tid");
 				pointsForRound += 1;
 				
 				playSound(getApplicationContext(),S1);
@@ -260,14 +294,9 @@ public class MainActivity extends Activity implements OnTouchButton {
 			else
 			{
 				madeError = true;
-				Log.i("special","feeel hann i tid");
 				pointsForRound = 0;
 				playSound(getApplicationContext(),S2);
 			}
-		}
-		else
-		{
-			Log.i("special","fick push men hann inte");
 		}
 	}
 	
@@ -289,25 +318,35 @@ public class MainActivity extends Activity implements OnTouchButton {
 	
 	private void startSimultaneousPushBlocker()
 	{
-		new Handler().postDelayed(new Runnable() {
+		startSimBlockHandler = new Handler();
+		startSimBlockHandler.postDelayed(new Runnable() {
 	        @Override
 	        public void run() {
-	        	simultaneousPushIsOpen = false;
-	        	setPointsForRound(pointsForRound);
-	        	pointsForRound = 0;
+	        	if(!onPauseWasTriggered)
+	        	{
+	        		simultaneousPushIsOpen = false;
+		        	setPointsForRound(pointsForRound);
+		        	pointsForRound = 0;
+	        	}
+	        	
 	        }
 	    }, Settings.SIMULTANEOUS_PUSH_FORGIVENESSTIME);
 	}
 	
 	private void startRound()
 	{
-		new Handler().postDelayed(new Runnable() {
+		startRoundHandler = new Handler(); 
+		startRoundHandler.postDelayed(new Runnable() {
 	        @Override
 	        public void run() {
-	        	setPointsTotal();
-	        	reset();
+	        	if(!onPauseWasTriggered)
+	        	{
+	        		setPointsTotal();
+		        	reset();
+	        	}
 	        }
 	    }, Settings.ROUND_TIME);
+		
 	}
 
 	private void showResultForFinishedLevel(String info)
@@ -321,7 +360,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 			tv.setText("Congratulations to your new highscore!\n\nOld record: " + oldrec +"\n\nNew record: " + totalPointsForRound);
 		}
 		else{
-			tv.setText("The round is finished MF! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
+			tv.setText("The round is finished! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
 		}
 	}
 	

@@ -1,15 +1,10 @@
 package se.iandwe.fingerdancer.db;
 
-import se.iandwe.fingerdancer.R;
 
 
 
 public class Settings {
 
-	
-	
-	//----------------- Constants ----------------------
-	
 	// gamesettings
 	
 	public static final int DELAY_BEFORE_STARTING_GAME				= 2000;
@@ -22,5 +17,6 @@ public class Settings {
 	public static final int LEVEL1_MUSICLENGTH 						= 32000;
 	public static final int AMOUNT_HIGHLIGHTED_BUTTONS				= 2;
 	
-	
+	// logtags
+	public static final String LOG_STATES								= "logstates";
 }
