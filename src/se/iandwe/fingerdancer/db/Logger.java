@@ -9,6 +9,7 @@ public class Logger {
 
 	// logtags
 	public static final String LOG_STATES								= "logStates";
+	public static final String GAME_DETAILS								= "gameDetails";
 	
 	//turn off if disable all logging
 	private static final boolean loggingIsOn = true;

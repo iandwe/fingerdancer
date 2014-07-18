@@ -228,14 +228,36 @@ public class MainActivity extends Activity implements OnTouchButton {
 		resetSquareListeners.add(_listener);
 	}
 	
+	private int getRightAmountOfAnswersForBoard()
+	{
+		
+		if(currentRoundGameboard >= 10 && currentRoundGameboard < 20){
+			return 2;
+		}
+		if(currentRoundGameboard >= 20 && currentRoundGameboard < 30){
+			return 3;
+		}
+		if(currentRoundGameboard >= 30 && currentRoundGameboard < 40){
+			return 4;
+		}
+		if(currentRoundGameboard >= 40){
+			return 5;
+		}
+		return 1;
+		
+	}
+	
+	
+	
 	private void reset()
 	{
 		currentRoundGameboard += 1;
 		emptyRoundPoints();
 		receivedPushFromThisRound = false;
-		Random r = new Random();
-		int amountOfAnswers = currentRoundGameboard > 3 ? r.nextInt(5 - 2) + 2 : currentRoundGameboard;
-		Log.i("AMOUNT OF ANSWERS", Integer.toString(amountOfAnswers));
+		//Random r = new Random();
+		//int amountOfAnswers = currentRoundGameboard > 3 ? r.nextInt(5 - 2) + 2 : currentRoundGameboard;
+		int amountOfAnswers = getRightAmountOfAnswersForBoard();
+		Logger.logThis(Logger.GAME_DETAILS, "Amount generated correct answers = " +  Integer.toString(amountOfAnswers));
 		int[] correctAnswers = getArrayWithRandomCorrectAnswers(amountOfAnswers);
 		for(int i = 0; i < resetSquareListeners.size(); i++){
 			boolean foundMatch = false;
