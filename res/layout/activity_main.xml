@@ -156,4 +156,60 @@
         
     </RelativeLayout>
     
+    <LinearLayout 
+        android:id="@+id/startView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@color/background_startscreen"
+        android:visibility="visible"
+        android:clickable="true"
+        android:orientation="vertical"
+        >
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/square_inactivecolor"
+            android:textSize="@dimen/titles"
+            android:layout_gravity="center"
+            android:text="@string/startscreen_title"
+            />
+        
+        <Button 
+            android:id="@+id/btnStartGame"
+            android:text="@string/btn_startgame_title"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/btn_width"
+            android:padding="10dp"
+            android:textSize="@dimen/btn_txt_size"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/square_activecolor"
+            
+            />
+        
+        <Button 
+            android:text="@string/btn_highscore_title"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/btn_width"
+            android:padding="10dp"
+            android:textSize="@dimen/btn_txt_size"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/square_activeshadow"
+            
+            />
+        
+        <Button 
+            android:text="@string/btn_settings_title"
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/btn_width"
+            android:padding="10dp"
+            android:textSize="@dimen/btn_txt_size"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#ccc"
+            />
+        
+    </LinearLayout>
+    
 </RelativeLayout>

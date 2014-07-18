@@ -93,6 +93,22 @@ public class MainActivity extends Activity implements OnTouchButton {
 		    	count++;
 		    }
 		}
+		
+		Button startGameFirstTimeBtn = (Button)findViewById(R.id.btnStartGame);
+		startGameFirstTimeBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startGameFirstTime();
+			}
+		});
+		
+	}
+	
+	private void startGameFirstTime()
+	{
+		LinearLayout startScreen = (LinearLayout)findViewById(R.id.startView);
+		startScreen.setVisibility(View.GONE);
 		new Handler().postDelayed(new Runnable() {
 	        @Override
 	        public void run() {

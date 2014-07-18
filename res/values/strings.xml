@@ -4,5 +4,9 @@
     <string name="app_name">FingerDancer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="startscreen_title">FINGERDANCER</string>
+     <string name="btn_startgame_title">Start game</string>
+     <string name="btn_highscore_title">Highscore</string>
+     <string name="btn_settings_title">Settings</string>
 
 </resources>

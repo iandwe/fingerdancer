@@ -3,6 +3,7 @@
     <color name="dark_red">#390000</color>
     <color name="dark_blue">#000439</color>
     <color name="dark_green">#032400</color>
+    <color name="background_startscreen">#000000</color>
     
     <color name="highlighted_green">#00FF00</color>
     <color name="highlighted_red">#FF0000</color>
@@ -15,6 +16,12 @@
     <color name="pointStatusForRound">#00FF00</color>
     
     <color name="black_semitransparent">#80000000</color>
+    
+    <!-- GAME DEFAULT COLORS -->
+    <color name="square_activecolor">#ffFF8AF5</color>
+    <color name="square_inactivecolor">#ff50E3C2</color>
+    <color name="square_activeshadow">#ffAE5EB1</color>
+    <color name="square_errorcolor">#ffff0000</color>
     
     
 </resources>
