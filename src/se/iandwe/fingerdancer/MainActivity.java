@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import se.iandwe.fingerdancer.db.JSONHelper;
-import se.iandwe.fingerdancer.db.JSONSharedPreferences;
 import se.iandwe.fingerdancer.db.Logger;
 import se.iandwe.fingerdancer.db.Settings;
+import se.iandwe.fingerdancer.effects.Animator;
 import se.iandwe.fingerdancer.gameobjects.RoundObj;
 import se.iandwe.fingerdancer.gameobjects.TapJava;
 import se.iandwe.fingerdancer.interfaces.OnTouchButton;
@@ -58,6 +57,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private Handler startRoundHandler;
 	private Handler startSimBlockHandler;
 	private boolean gameOver;
+	private Animator animator;
 	
 
 	
@@ -77,6 +77,7 @@ public class MainActivity extends Activity implements OnTouchButton {
 		goagain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Logger.logThis(Logger.GAME_DETAILS, "pushed btn for new game");
 				restartGame();
 			}
 		});
@@ -102,13 +103,13 @@ public class MainActivity extends Activity implements OnTouchButton {
 				startGameFirstTime();
 			}
 		});
-		
+		animator = new Animator();
 	}
 	
 	private void startGameFirstTime()
 	{
 		LinearLayout startScreen = (LinearLayout)findViewById(R.id.startView);
-		startScreen.setVisibility(View.GONE);
+		animator.slideToBottom(startScreen);
 		new Handler().postDelayed(new Runnable() {
 	        @Override
 	        public void run() {
@@ -412,7 +413,8 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private void showResultForFinishedLevel(String info)
 	{
 		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
-		back.setVisibility(View.VISIBLE);
+		//back.setVisibility(View.VISIBLE);
+		animator.slideToTop(back);
 		TextView tv = (TextView)findViewById(R.id.roundFinishedInfo);
 		int oldrec = JSONHelper.getCurrentRecord(getApplicationContext());
 		if(JSONHelper.checkIfNewRecord(getApplicationContext(), totalPointsForRound))
@@ -427,7 +429,8 @@ public class MainActivity extends Activity implements OnTouchButton {
 	private void hideInfoView()
 	{
 		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
-		back.setVisibility(View.INVISIBLE);
+		//back.setVisibility(View.INVISIBLE);
+		animator.slideToBottom(back);
 	}
 	
 
