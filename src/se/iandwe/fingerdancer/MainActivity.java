@@ -81,6 +81,22 @@ public class MainActivity extends Activity implements OnTouchButton {
 				restartGame();
 			}
 		});
+		
+		Button quit = (Button)findViewById(R.id.quit);
+		quit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Logger.logThis(Logger.GAME_DETAILS, "pushed quit btn");
+				gameOver = false;
+				hideInfoView();
+				currentRoundGameboard = 0;
+				totalPointsForRound = 0;
+				setPointsTotal();
+				showStartScreen();
+				
+			}
+		});
+		
 		LinearLayout gamebox = (LinearLayout)findViewById(R.id.gameBox);
 		touchables = gamebox.getTouchables();
 		int count = 0;
@@ -106,10 +122,21 @@ public class MainActivity extends Activity implements OnTouchButton {
 		animator = new Animator();
 	}
 	
-	private void startGameFirstTime()
+	private void hideStartScreen()
 	{
 		LinearLayout startScreen = (LinearLayout)findViewById(R.id.startView);
 		animator.slideToBottom(startScreen);
+	}
+	
+	private void showStartScreen()
+	{
+		LinearLayout startScreen = (LinearLayout)findViewById(R.id.startView);
+		animator.slideToTop(startScreen);
+	}
+	
+	private void startGameFirstTime()
+	{
+		hideStartScreen();
 		new Handler().postDelayed(new Runnable() {
 	        @Override
 	        public void run() {
@@ -412,24 +439,27 @@ public class MainActivity extends Activity implements OnTouchButton {
 
 	private void showResultForFinishedLevel(String info)
 	{
-		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
-		//back.setVisibility(View.VISIBLE);
-		animator.slideToTop(back);
+		showInfoView();
 		TextView tv = (TextView)findViewById(R.id.roundFinishedInfo);
 		int oldrec = JSONHelper.getCurrentRecord(getApplicationContext());
 		if(JSONHelper.checkIfNewRecord(getApplicationContext(), totalPointsForRound))
 		{
-			tv.setText("Congratulations to your new highscore!\n\nOld record: " + oldrec +"\n\nNew record: " + totalPointsForRound);
+			tv.setText("Congratulations to your new highscore!\n\nOld record: " + oldrec +"\nNew record: " + totalPointsForRound);
 		}
 		else{
-			tv.setText("Gameover! And you didnt beat the highscore with your puny " + totalPointsForRound + "\n\nOld record: " + oldrec);
+			tv.setText("Total points: " + totalPointsForRound + " Old record: " + oldrec);
 		}
+	}
+	
+	private void showInfoView()
+	{
+		LinearLayout back = (LinearLayout)findViewById(R.id.roundFinishedView);
+		animator.slideToTop(back);
 	}
 	
 	private void hideInfoView()
 	{
-		RelativeLayout back = (RelativeLayout)findViewById(R.id.roundFinishedView);
-		//back.setVisibility(View.INVISIBLE);
+		LinearLayout back = (LinearLayout)findViewById(R.id.roundFinishedView);
 		animator.slideToBottom(back);
 	}
 	

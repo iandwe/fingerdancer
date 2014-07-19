@@ -8,5 +8,8 @@
      <string name="btn_startgame_title">Start game</string>
      <string name="btn_highscore_title">Highscore</string>
      <string name="btn_settings_title">Settings</string>
+     <string name="btn_quit_title">Quit</string>
+     <string name="btn_playagain_title">Play again</string>
+     <string name="gameover">Game over</string>
 
 </resources>

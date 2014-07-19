@@ -127,34 +127,60 @@
         
     </RelativeLayout>
     
-    <RelativeLayout 
+    <LinearLayout 
         android:id="@+id/roundFinishedView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="@color/background_startscreen"
         android:visibility="invisible"
         android:clickable="true"
+        android:orientation="vertical"
         >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/square_inactivecolor"
+            android:textSize="@dimen/titles"
+            android:layout_gravity="center"
+            android:text="@string/gameover"
+            />
+        
         <TextView 
             android:id="@+id/roundFinishedInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/pointStatusTotal"
             android:textSize="@dimen/pointStatusTotal"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             />
         
         <Button 
             android:id="@+id/goagain"
-            android:text="Go again"
+            android:text="@string/btn_playagain_title"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/roundFinishedInfo"
             android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:textSize="@dimen/btn_txt_size"
+            android:background="@color/square_activecolor"
+            android:layout_width="@dimen/btn_width"
             />
         
-    </RelativeLayout>
+        <Button 
+            android:id="@+id/quit"
+            android:text="@string/btn_quit_title"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:textSize="@dimen/btn_txt_size"
+            android:background="@color/square_inactivecolor"
+            android:layout_width="@dimen/btn_width"
+            />
+        
+    </LinearLayout>
     
     <LinearLayout 
         android:id="@+id/startView"
